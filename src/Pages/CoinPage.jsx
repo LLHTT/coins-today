@@ -48,11 +48,11 @@ const CoinPage= () => {
     heading: {
       fontWeight: "bold",
       marginBottom: 20, 
-      fontFamily: "Montserrat"
+      fontFamily: "Inter"
     },
     description: {
       width: "100%",
-      fontFamily: "Montserrat",
+      fontFamily: "Inter",
       padding: 25,
       paddingBottom: 15,
       paddingTop: 0,
@@ -80,7 +80,7 @@ const CoinPage= () => {
 
   const classes = useStyles()
 
-  if (!coin) return <LinearProgress style={{ backgroundColor: "gold"}} />
+  if (!coin) return <LinearProgress style={{ backgroundColor: "#00b7ff"}} />
 
   return (
     <div className={classes.container}>
@@ -104,7 +104,7 @@ const CoinPage= () => {
               Rank:
             </Typography>
             &nbsp; &nbsp;
-            <Typography variant="h5" style={{ fontFamily: "Montserrat"}}>
+            <Typography variant="h5" style={{ fontFamily: "Inter"}}>
               {coin?.market_cap_rank}
             </Typography>
           </span>
@@ -113,7 +113,7 @@ const CoinPage= () => {
               Current Price:
             </Typography>
             &nbsp; &nbsp;
-            <Typography variant="h5" style={{ fontFamily: "Montserrat"}}>
+            <Typography variant="h5" style={{ fontFamily: "Inter"}}>
               {symbol}{" "}
               {numberWithCommas(
                 coin?.market_data.current_price[currency.toLowerCase()]
@@ -125,7 +125,7 @@ const CoinPage= () => {
               Market Cap:
             </Typography>
             &nbsp; &nbsp;
-            <Typography variant="h5" style={{ fontFamily: "Montserrat"}}>
+            <Typography variant="h5" style={{ fontFamily: "Inter"}}>
               {symbol}{" "}
               {numberWithCommas(
                 coin?.market_data.market_cap[currency.toLowerCase()]

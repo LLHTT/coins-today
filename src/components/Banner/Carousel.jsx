@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: "center",
       cursor: "pointer",
       textTransform: "uppercase",
-      color: "white"
+      color: "#10162f",
     }
 }))
 
@@ -64,7 +64,7 @@ const Carousel = () => {
           &nbsp;
           <span
             style={{
-              color: profit > 0 ? "rgb(14, 203, 129)" : "red",
+              color: profit > 0 ? "#03c03c" : "red",
               fontWeight: "500"
             }}
           >

@@ -1,6 +1,4 @@
-import axios from "axios"
 import { useState, useEffect } from "react"
-import { CoinList } from '../config/api'
 import { CryptoState } from '../CryptoContext'
 import { 
   ThemeProvider, 
@@ -24,21 +22,10 @@ export function numberWithCommas(x) {
 }
 
 const CoinsTable = () => {
-  const [coins, setCoins] = useState([])
-  const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState("")
   const [page, setPage] = useState(1)
 
-  const { currency, symbol } = CryptoState()
-
-  const fetchCoins = async () => {
-    setLoading(true)
-
-    const { data } = await axios.get(CoinList(currency)) 
-    setCoins(data)
-
-    setLoading(false)
-  }
+  const { currency, symbol, coins, loading, fetchCoins } = CryptoState()
   
   console.log(coins)
 
@@ -46,12 +33,12 @@ const CoinsTable = () => {
     fetchCoins()
   }, [currency])
 
-  const darkTheme = createTheme({
+  const lightTheme = createTheme({
     palette: {
       primary: {
-        main: "#fff",
+        main: "#10162f",
       },
-      type: "dark",
+      type: "light",
     } 
   })
 
@@ -64,16 +51,16 @@ const CoinsTable = () => {
 
   const useStyles = makeStyles(() => ({
     row: {
-      backgroundColor: "#16171a",
+      backgroundColor: "#fff",
       cursor: "pointer",
       "&:hover": {
-        backgroundColor: "#131111"
+        backgroundColor: "#f9fbfe"
       },
-      fontFamily: "Montserrat"
+      fontFamily: "Inter"
     },
     pagination: {
       "& .MuiPaginationItem-root": {
-        color: "gold"
+        color: "#00b7ff"
       }
     }
   }))
@@ -81,11 +68,11 @@ const CoinsTable = () => {
   const classes = useStyles()
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={lightTheme}>
       <Container style={{ textAlign: 'center' }}>
         <Typography
           variant="h4"
-          style={{ margin: 18, fontFamily: 'Montserrat'}}
+          style={{ margin: 50, fontFamily: 'Inter'}}
         >
           Cryptocurrency Prices by Market Cap
         </Typography>
@@ -100,17 +87,17 @@ const CoinsTable = () => {
         <TableContainer>
           {
             loading ? (
-              <LinearProgress style={{ backgroundColor: "gold" }} />
+              <LinearProgress style={{ backgroundColor: "#00b7ff" }} />
             ) : (
               <Table>
-                <TableHead style={{ backgroundColor: "#EEBC1D" }}>
+                <TableHead style={{ backgroundColor: "" }}>
                   <TableRow>
                     {["Coin", "Price", "24h Change", "Market Cap"].map((head) => (
                       <TableCell
                         style={{ 
-                          color: "black",
+                          color: "#10162f",
                           fontWeight: "700",
-                          fontFamily: "Montserrat"
+                          fontFamily: "Inter"
                         }}
                         key={head}
                         align={head === "Coin" ? "" : "right"}
@@ -144,14 +131,14 @@ const CoinsTable = () => {
                             <img 
                               src={row?.image} 
                               alt={row.name} 
-                              height="50"
-                              style={{ marginBottom: 10}}
+                              height="30"
+                              style={{ marginTop: 4, marginRight: 10}}
                             />  
                             <div
                               style={{ display: "flex", flexDirection: "column"}}
                             >
                               <span
-                                style={{ textTransform: "uppercase", fontSize: 22 }}
+                                style={{ textTransform: "uppercase", fontSize: 18 }}
                               >
                                 {row.symbol}
                               </span>
@@ -169,7 +156,7 @@ const CoinsTable = () => {
                           <TableCell
                             align="right"
                             style={{ 
-                              color: profit > 0 ? "rgb(14, 203, 129)" : "red",
+                              color: profit > 0 ? "#03c03c" : "red",
                               fontWeigh: 500
                             }}
                           >

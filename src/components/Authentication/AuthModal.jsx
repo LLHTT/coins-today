@@ -61,20 +61,22 @@ export default function AuthModal() {
   const googleProvider = new GoogleAuthProvider()
 
   const signInWithGoogle = () => {
-    signInWithPopup(auth, googleProvider).then((res) => {
-      setAlert({
-        open: "true",
-        message: `Sign up successful. Welcome ${res.user.email}`,
-        type: "success"
+    signInWithPopup(auth, googleProvider)
+      .then((res) => {
+        setAlert({
+          open: "true",
+          message: `Sign up successful. Welcome ${res.user.email}`,
+          type: "success"
+        })
+        handleClose()
       })
-      handleClose()
-    }).catch(error => {
-      setAlert({
-        open: "true",
-        message: error.message,
-        type: "error"
+      .catch(error => {
+        setAlert({
+          open: "true",
+          message: error.message,
+          type: "error"
+        })
       })
-    })
   }
 
   return (

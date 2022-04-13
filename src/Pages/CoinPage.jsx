@@ -6,13 +6,15 @@ import { useParams } from 'react-router-dom'
 import { CryptoState } from '../CryptoContext'
 import { SingleCoin } from '../config/api'
 import { numberWithCommas } from '../components/CoinsTable'
-import { makeStyles, Typography, LinearProgress } from '@material-ui/core'
+import { makeStyles, Typography, LinearProgress, Button } from '@material-ui/core'
+import { doc, setDoc } from 'firebase/firestore'
+import { db } from '../firebase'
 
 const CoinPage= () => {
   const { id } = useParams()
   const [coin, setCoin] = useState()  
 
-  const { currency, symbol } = CryptoState()
+  const { currency, symbol, user, watchlist, setAlert } = CryptoState()
 
   const fetchCoin = async () => {
     const { data } = await axios.get(SingleCoin(id))
@@ -20,7 +22,50 @@ const CoinPage= () => {
     setCoin(data)
   } 
 
-  console.log(coin);
+  const inWatchlist = watchlist.includes(coin?.id)
+
+  const addToWatchlist = async () => {
+    const coinRef = doc(db, "watchlist", user.uid)
+    try {
+      await setDoc(
+        coinRef,
+        { coins: watchlist ? [...watchlist, coin?.id] : [coin?.id]}
+      )
+      setAlert({
+        open: true,
+        message: `${coin.name} added to the Watchlist !`,
+        type: 'success'
+      })
+    } catch (error) {
+      setAlert({
+        open: true,
+        message: error.message,
+        type: 'error'
+      })
+    }
+  }
+
+  const removeFromWatchlist = async () => {
+    const coinRef = doc(db, "watchlist", user.uid)
+    try {
+      await setDoc(
+        coinRef,
+        { coins: watchlist.filter((watch) => watch !== coin?.id) },
+        { merge: "true" }
+      )
+      setAlert({
+        open: true,
+        message: `${coin.name} removed from the Watchlist !`,
+        type: 'success'
+      })
+    } catch (error) {
+      setAlert({
+        open: true,
+        message: error.message,
+        type: 'error'
+      })
+    }
+  }
 
   useEffect(() => {
     fetchCoin()
@@ -43,7 +88,7 @@ const CoinPage= () => {
       flexDirection: "column",
       alignItems: "center",
       marginTop: 25,
-      borderRight: "2px solid grey"
+      borderRight: "2px solid grey",
     },
     heading: {
       fontWeight: "bold",
@@ -60,15 +105,16 @@ const CoinPage= () => {
     },
     marketData: {
       alignSelf: "start",
-      padding: 25,
+      padding: 25, 
       paddingTop: 10,
       width: "100%",
       // Making it responsive
+      [theme.breakpoints.down("sm")]: {
+        flexDirection: "column",
+        alignItems: "center",
+      },
       [theme.breakpoints.down("md")]: {
         display: "flex",
-        justifyContent: "space-around",
-      },
-      [theme.breakpoints.down("sm")]: {
         flexDirection: "column",
         alignItems: "center",
       },
@@ -89,7 +135,7 @@ const CoinPage= () => {
           src={coin?.image.large} 
           alt={coin?.name}
           height="200"
-          style={{ marginBottom: 20}}
+          style={{ marginBlock: 20, height: '150px' }}
         />
         <Typography variant="h3" className={classes.heading}>
           {coin?.name}
@@ -134,7 +180,22 @@ const CoinPage= () => {
               )}M
             </Typography>
           </span>
-        </div>
+
+          {user && (
+            <Button
+            variant="outlined"
+            style={{
+              width: "100%",
+              maxWidth: "400px",
+              height: 40,
+              backgroundColor: inWatchlist ? "#ff0033" : "#00b7ff",
+            }}
+            onClick={inWatchlist ? removeFromWatchlist : addToWatchlist}
+          >
+            {inWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
+          </Button>
+          )}
+        </div> 
       </div>
 
       {/* Chart */}

@@ -3,10 +3,11 @@ import Carousel from './Carousel'
 
 const useStyles = makeStyles(() => ({
     banner: {
-        backgroundImage: "url(./banner1.png)",
+        backgroundImage: "url(./banner.jpg)",
+        objectFit: "cover"
     },
     bannerContent: {
-        height: 400,
+        height: 500,
         display: "flex",
         flexDirection: "column",
         paddingTop: 25,
@@ -31,6 +32,7 @@ const Banner = () => {
                     <Typography
                         variant="h2"
                         style={{
+                            color: "white",
                             fontWeight: 'bold',
                             marginBottom: 15,
                             fontFamily: "Inter"

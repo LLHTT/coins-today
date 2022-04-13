@@ -33,7 +33,7 @@ const CoinInfo = ({ coin }) => {
       padding: 40,
       [theme.breakpoints.down("md")]: {
         width: "100%",
-        marginTop: 0,
+        marginTop: 50,
         padding: 20,
         paddingTop: 0,
       },

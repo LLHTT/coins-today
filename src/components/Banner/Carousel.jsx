@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: "center",
       cursor: "pointer",
       textTransform: "uppercase",
-      color: "#10162f",
+      color: "whitesmoke",
     }
 }))
 
@@ -85,7 +85,10 @@ const Carousel = () => {
     },
     512: {
       items: 4
-    }
+    },
+    1000: {
+      items: 6
+    },
   }
 
   return (

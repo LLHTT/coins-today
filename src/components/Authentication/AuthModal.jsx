@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     textAlign: "center",
     gap: 20,
-    fontSize: 18,
+    fontSize: 13,
     fontFamily: "Inter"
   },
 }))

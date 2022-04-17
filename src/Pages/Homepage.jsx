@@ -1,11 +1,14 @@
+import React, { Suspense } from 'react'
 import Banner from '../components/Banner/Banner'
-import CoinsTable from '../components/CoinsTable'
+const CoinsTable = React.lazy(() => import('../components/CoinsTable'))
 
 function Homepage() {
   return (
     <>
       <Banner />
-      <CoinsTable />
+      <Suspense fallback={<div>Loading...</div>}>
+        <CoinsTable />
+      </Suspense>
     </> 
   )
 }

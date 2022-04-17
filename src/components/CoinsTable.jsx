@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
 import { CryptoState } from '../CryptoContext'
-import { 
-  ThemeProvider, 
+import {
+  ThemeProvider,
   createTheme,
-  Container, 
-  Typography, 
+  Container,
+  Typography,
   TextField,
   TableContainer,
   LinearProgress,
@@ -16,6 +16,7 @@ import {
   makeStyles
 } from '@material-ui/core'
 import { Pagination } from '@material-ui/lab'
+import { Link } from 'react-router-dom'
 
 export function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -26,7 +27,7 @@ const CoinsTable = () => {
   const [page, setPage] = useState(1)
 
   const { currency, symbol, coins, loading, fetchCoins } = CryptoState()
-  
+
   console.log(coins)
 
   useEffect(() => {
@@ -39,11 +40,11 @@ const CoinsTable = () => {
         main: "#10162f",
       },
       type: "light",
-    } 
+    }
   })
 
   const handleSearch = () => {
-    return coins.filter((coin) => 
+    return coins.filter((coin) =>
       coin.name.toLowerCase().includes(search) ||
       coin.symbol.toLowerCase().includes(search)
     )
@@ -72,15 +73,15 @@ const CoinsTable = () => {
       <Container style={{ textAlign: 'center' }}>
         <Typography
           variant="h4"
-          style={{ margin: 50, fontFamily: 'Inter'}}
+          style={{ margin: 50, fontFamily: 'Inter' }}
         >
           Cryptocurrency Prices by Market Cap
         </Typography>
 
-        <TextField 
+        <TextField
           label="Search for a Crypto Currency..."
           variant="outlined"
-          style={{ marginBottom: 20, width: "100%"}}
+          style={{ marginBottom: 20, width: "100%" }}
           onChange={(e) => setSearch(e.target.value)}
         />
 
@@ -94,7 +95,7 @@ const CoinsTable = () => {
                   <TableRow>
                     {["Coin", "Price", "24h Change", "Market Cap"].map((head) => (
                       <TableCell
-                        style={{ 
+                        style={{
                           color: "#10162f",
                           fontWeight: "700",
                           fontFamily: "Inter"
@@ -116,46 +117,46 @@ const CoinsTable = () => {
 
                       return (
                         <TableRow
-                          onClick={() => window.location.href=`/coins/${row.id}`}
                           className={classes.row}
                           key={row.name}
                         >
-                          <TableCell
-                            component="th"
-                            scope="row"
-                            style={{ 
-                              display: "flex",
-                              gap: 15
-                            }}
-                          >
-                            <img 
-                              src={row?.image} 
-                              alt={row.name} 
-                              height="30"
-                              style={{ marginTop: 4, marginRight: 10}}
-                            />  
-                            <div
-                              style={{ display: "flex", flexDirection: "column"}}
+                          <Link to={`/coins/${row.id}`}>
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              style={{
+                                display: "flex",
+                                gap: 15
+                              }}
                             >
-                              <span
-                                style={{ textTransform: "uppercase", fontSize: 18 }}
+                              <img
+                                src={row?.image}
+                                alt={row.name}
+                                height="30"
+                                style={{ marginTop: 4, marginRight: 10 }}
+                              />
+                              <div
+                                style={{ display: "flex", flexDirection: "column" }}
                               >
-                                {row.symbol}
-                              </span>
-                              <span style={{ color: "darkgrey" }}>
-                                {row.name}
-                              </span>
-                            </div>
-                          </TableCell>
+                                <span
+                                  style={{ textTransform: "uppercase", fontSize: 18 }}
+                                >
+                                  {row.symbol}
+                                </span>
+                                <span style={{ color: "darkgrey" }}>
+                                  {row.name}
+                                </span>
+                              </div>
+                            </TableCell>
+                          </Link>
 
                           <TableCell align="right">
                             {symbol}{" "}
                             {numberWithCommas(row.current_price.toFixed(2))}
                           </TableCell>
-
                           <TableCell
                             align="right"
-                            style={{ 
+                            style={{
                               color: profit > 0 ? "#03c03c" : "red",
                               fontWeigh: 500
                             }}
@@ -163,7 +164,6 @@ const CoinsTable = () => {
                             {profit && "+"}
                             {row.price_change_percentage_24h.toFixed(2)}%
                           </TableCell>
-
                           <TableCell align="right">
                             {symbol}{" "}
                             {numberWithCommas(
@@ -172,16 +172,16 @@ const CoinsTable = () => {
                           </TableCell>
                         </TableRow>
                       )
-                  })}
+                    })}
                 </TableBody>
               </Table>
             )
           }
         </TableContainer>
-        
-        <Pagination 
+
+        <Pagination
           style={{
-            padding: 20, 
+            padding: 20,
             width: '100%',
             display: 'flex',
             justifyContent: 'center',
